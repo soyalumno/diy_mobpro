@@ -1,5 +1,7 @@
 # せどりツールDIY部オフ会企画
 
+[ツール](https://docs.google.com/spreadsheets/d/15qiR8TC-WEpQWPVtJsx_YWe-gpGN2WifOSLhzM36RI4/edit#gid=1757537246)
+
 ## 要件
 
 ```
