@@ -6,6 +6,5 @@
     "noEmitOnError": true,
     "strict": true,
     "noImplicitAny": true
-  },
-  "exclude": ["shiba_lib.ts"]
+  }
 }
