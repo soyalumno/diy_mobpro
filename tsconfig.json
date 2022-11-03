@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "noEmitOnError": true,
+    "strict": true,
+    "noImplicitAny": true
+  },
+  "exclude": ["shiba_lib.ts"]
+}
