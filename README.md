@@ -25,7 +25,7 @@
 (連番は、ファイルを格納した方から、1を使ってください。ファイル格納後も内容修正いただいて構いません)
 
 ■格納フォルダ、サンプルファイル
-https://drive.google.com/drive/folders/1N_5nJow61ZWqhsQHuB6cwpgjLxQOVYSb
+https://drive.google.com/drive/folders/<folder_id>
 
 ・格納する際のgoogleアカウントについて、本名が見えてしまわないよう、アカウント、またはアカウントの名前に気をつけて下さい。
 ・設定シートのkeepa APIキーは必ず削除した上でアップしてください
