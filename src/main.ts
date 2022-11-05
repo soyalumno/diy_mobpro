@@ -92,7 +92,7 @@ function onOpen() {
 }
 
 /** 前回の更新位置から、今回の更新対象ASINを取得 */
-function getTargetAsins(records: { [key: string]: string }[]) {
+function getTargetAsins(records: Item[]) {
   // 現在の全ASIN
   const curr_asins = records.map((r) => r['ASIN']);
 
@@ -116,26 +116,22 @@ function getTargetAsins(records: { [key: string]: string }[]) {
 }
 
 /** シートにデータを書き込み */
-function writeItem(records: { [key: string]: string }[], items: Item[]) {
+function writeItem(head: ItemHeader[], records: Item[], items: Item[]) {
   // 最終更新位置の保持
   const last = { row: 0, asin: '' };
   // 書き込み用データの生成
   const data: GoogleAppsScript.Sheets.Schema.ValueRange[] = [];
   items.map((item) => {
     records.map((record, i) => {
-      if (record['ASIN'] === item.asin) {
+      const asin = item['ASIN'];
+      if (record['ASIN'] === asin) {
         const row = RESEARCH_TABLE_HEAD_ROW + 1 + i;
         data.push({
           range: `${RESEARCH_SHEET}!A${row}:ZZ${row}`,
-          values: [[
-            item.asin,
-            item.title,
-            item.buybox_price,
-            item.url
-          ]],
+          values: [head.map((c) => item[c])],
         });
         last.row = row;
-        last.asin = item.asin;
+        last.asin = asin;
       }
     });
   });
@@ -159,7 +155,8 @@ function beginUpdateSheet() {
     ranges: [`${RESEARCH_SHEET}!A${RESEARCH_TABLE_HEAD_ROW}:ZZ`],
   });
   const df: CellValue[][] = resp?.valueRanges ? (resp.valueRanges[0].values || [[]]) : [[]];
-  const records = Util.namingCellValues(df);
+  const [head] = df as ItemHeader[][];
+  const records = Util.namingCellValues(df) as Item[];
 
   try {
     ss.toast('', 'Keepa情報取得...');
@@ -172,16 +169,16 @@ function beginUpdateSheet() {
         const { asin, title, stats } = product;
         const { buyBoxPrice } = stats;
         const item: Item = {
-          asin,
-          title,
-          buybox_price: buyBoxPrice,
-          url: 'https://www.amazon.co.jp/dp/' + asin,
+          'ASIN': asin,
+          '商品名': title,
+          'カート価格': buyBoxPrice.toString(),
+          'リンク': 'https://www.amazon.co.jp/dp/' + asin,
         };
         return item;
       });
 
       // シートに書き込み
-      writeItem(records, items);
+      writeItem(head, records, items);
       ss.toast(SETTING.last_update_row_str, 'Keepa情報取得...');
     });
     ss.toast(SETTING.last_update_row_str, 'Keepa情報取得完了');

@@ -1,14 +1,6 @@
 /** シートのセル値 */
 type CellValue = (string | number | boolean | Date);
 
-/** 商品情報 */
-interface Item {
-  asin: string,
-  title: string
-  buybox_price: number,
-  url: string,
-}
-
 /** KeepaAPI商品情報 */
 interface KeepaProduct {
   imagesCSV: string,
@@ -46,3 +38,14 @@ interface KeepaProduct {
     shipsFromChina: boolean
   }[],
 }
+
+/** シートの見出し名 */
+type ItemHeader =
+  'ASIN' |
+  '商品名' |
+  'カート価格' |
+  'リンク';
+
+/** 商品の行 */
+type Item = { [key in ItemHeader]: string };
+
